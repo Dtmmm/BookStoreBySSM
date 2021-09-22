@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.ssm.mapper.BookMapper">
+  
+ 	<!-- 查询所有图书 -->
+ 	<select id="queryAllBooksDao" resultType="Book">
+ 		select * from books
+ 	</select>
+ 
+  	<!-- 根据id查询图书 -->
+ 	<select id="queryBookByBookIdDao" parameterType="String" resultType="Book">
+ 		select * from books
+ 		<where>
+			bookId = #{bookId}
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 添加图书 -->
+ 	<insert id="addBookDao" parameterType="Book">
+ 		insert into books(bookId,bookName,author,price,publisher,date,inventory,img,intro,bClassification,sClassification,fresh,hot,recommended,sole) 
+ 		values(#{bookId},#{bookName},#{author},#{price},#{publisher},#{date},#{inventory},#{img},#{intro},#{bClassification},#{sClassification},#{fresh},#{hot},#{recommended},#{sole})
+ 	</insert>
+ 	
+ 	<!-- 修改图书 -->
+ 	<update id="updateBookDao" parameterType="Book">
+ 		update Books 
+ 		<set>
+ 			<if test="bookName!=null and bookName!=''">
+ 				bookName=#{bookName},
+ 			</if>
+ 			<if test="author!=null and author!=''">
+ 				author=#{author},
+ 			</if>
+ 			<if test="price!=null and price>=0">
+ 				price=#{price},
+ 			</if>
+ 			<if test="publisher!=null and publisher!=''">
+ 				publisher=#{publisher},
+ 			</if>
+ 			<if test="date!=null and date!=''">
+ 				date=#{date},
+ 			</if>
+ 			<if test="inventory!=null and inventory>=0">
+ 				inventory=#{inventory},
+ 			</if>
+ 			<if test="img!=null and img!=''">
+ 				img=#{img},
+ 			</if>
+ 			<if test="intro!=null and intro!=''">
+ 				intro=#{intro},
+ 			</if>
+ 			<if test="bClassification!=null and bClassification!=''">
+ 				bClassification=#{bClassification},
+ 			</if>
+ 			<if test="sClassification!=null and sClassification!=''">
+ 				sClassification=#{sClassification},
+ 			</if>
+ 			<if test="fresh!=null">
+ 				fresh=#{fresh},
+ 			</if>
+ 			<if test="hot!=null">
+ 				hot=#{hot},
+ 			</if>
+ 			<if test="recommended!=null">
+ 				recommended=#{recommended},
+ 			</if>
+ 			<if test="sole!=null">
+ 				sole=#{sole},
+ 			</if>
+ 		</set>
+ 		<where>
+ 			bookId = #{bookId}
+ 		</where>
+ 	</update> 	
+ 	
+ 	<!-- 删除图书 -->
+ 	<delete id="deleteBookDao" parameterType="String">
+ 		delete from books 
+ 		<where>
+ 			bookId = #{bookId}
+ 		</where>
+ 	</delete>
+ 	
+ 	<!-- 根据书名、作者名、出版社名模糊查询图书 -->
+ 	<select id="searchBookDao" parameterType="Book" resultType="Book">
+ 		select * from books
+ 		<where>
+ 			<if test="bookName!=null and bookName!=''">
+ 				or bookName LIKE CONCAT(CONCAT('%',#{bookName}),'%')
+ 			</if>
+ 			<if test="author!=null and author!=''">
+ 				or author LIKE CONCAT(CONCAT('%',#{author}),'%')
+ 			</if>
+ 			<if test="publisher!=null and publisher!=''">
+ 				or publisher LIKE CONCAT(CONCAT('%',#{publisher}),'%')
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 更新图书库存信息 -->
+ 	<update id="updateBookInventoryDao" parameterType="Book">
+ 		update Books 
+ 		<set>
+ 			<if test="inventory!=null and inventory>=0">
+ 				inventory = #{inventory}
+ 			</if>
+ 		</set>
+ 		<where>
+ 			bookId = #{bookId}
+ 		</where>
+ 	</update>
+ 	
+ 
+ </mapper>

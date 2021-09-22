@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.ssm.mapper.CartMapper">
+ 
+ 	<!-- 创建用户购物车表 -->
+ 	<update id="createUserCartDao" parameterType="String">
+ 		CREATE TABLE ${value} (
+		  `bookId` VARCHAR(50) NOT NULL,
+		  `number` INT NOT NULL,
+		  PRIMARY KEY (`bookId`)
+		) ENGINE=INNODB DEFAULT CHARSET=utf8mb3
+ 	</update>
+ 	
+ 	<!-- 查询用户购物车信息 -->
+ 	<select id="queryUserCartDao" parameterType="String" resultType="Cart">
+ 		select * from ${value}
+ 	</select>
+ 	
+	<!-- 更新用户购物车信息：当用户购物车中已经有该书时（改变用户购物车中书的数量）-->
+	<update id="updateCartDao" parameterType="Cart">
+		update ${tableName} 
+		<set>
+			<if test="number!=null and number>=0">
+				number = #{number}
+			</if>
+		</set>
+		<where>
+			bookId = #{bookId}
+		</where>
+	</update>
+	
+	<!-- 更新用户购物车信息：当用户购物车中没有该书时（向用户购物车中增加书）-->
+	<insert id="insterCartDao" parameterType="Cart">
+		insert into ${tableName}(bookId,number) values(#{bookId},#{number})
+	</insert>
+	
+	<!-- 从用户购物车中删除书 -->
+	<delete id="deleteCartDao" parameterType="Cart">
+		delete from ${tableName} 
+		<where>
+			bookId = #{bookId}
+		</where>
+	</delete>
+ 
+ 	<!-- 清空用户购物车 -->
+ 	<delete id="clearCartDao" parameterType="String">
+ 		delete from ${value}
+ 	</delete>
+ 	
+ 	<!-- 删除用户购物车表 -->
+ 	<update id="deleteUserCartDao" parameterType="String">
+ 		drop table ${value}
+ 	</update>
+ 
+ 
+ 
+ 
+ 
+ </mapper>

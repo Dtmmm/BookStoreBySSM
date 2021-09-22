@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ <mapper namespace="com.ssm.mapper.DealMapper">
+ 
+ 	<!-- 添加订单 -->
+ 	<insert id="addDealDao" parameterType="Deal">
+ 		insert into Deals(id,bookId,number,price,time,address,payWay) 
+ 		values(#{id},#{bookId},#{number},#{price},#{time},#{address},#{payWay})
+ 	</insert>
+ 	
+ 	<!-- 查询所有订单 -->
+ 	<select id="queryAllDealsDao" resultType="Deal">
+ 		select * from Deals
+ 	</select>
+ 
+ 	<!-- 查询用户订单 -->
+ 	<select id="queryUserDealDao" parameterType="String" resultType="Deal">
+ 		select * from Deals 
+ 		<where>
+ 			id = #{id}
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 根据账户、编号、时间、地址模糊查询订单 -->
+ 	<select id="searchUserDealDao" parameterType="Deal" resultType="Deal">
+ 		select * from Deals 
+ 		<where>
+ 			<if test="id!=null and id!=''">
+ 				and id LIKE CONCAT(CONCAT('%',#{id}),'%')
+ 			</if>
+ 			<if test="bookId!=null and bookId!=''">
+ 				and bookId LIKE CONCAT(CONCAT('%',#{bookId}),'%')
+ 			</if>
+ 			<if test="time!=null and time!=''">
+ 				and time LIKE CONCAT(CONCAT('%',#{time}),'%')
+ 			</if>
+ 			<if test="address!=null and address!=''">
+ 				and address LIKE CONCAT(CONCAT('%',#{address}),'%')
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 查询图书销售信息 -->
+ 	<select id="queryBookSaleInfoDao" parameterType="String" resultType="Deal">
+ 		select * from Deals 
+ 		<where>
+ 			bookId = #{bookId}
+ 		</where>
+ 	</select>
+ 
+ 	
+ </mapper>

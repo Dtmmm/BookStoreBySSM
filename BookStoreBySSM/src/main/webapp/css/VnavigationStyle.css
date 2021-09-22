@@ -1,0 +1,18 @@
+@charset "UTF-8";
+    #Vnavigation ul{
+    	line-height:60px;
+    	font-size:25px;
+    }
+    #Vnavigation ul li{
+    	text-align: center;
+    }
+    
+    #Vnavigation ul li a{
+    	display: block;
+ 		text-decoration: none;
+    }
+    
+    #Vnavigation ul li a:hover {
+		background: #b63b4d;
+ 		color: #FFF;
+	}

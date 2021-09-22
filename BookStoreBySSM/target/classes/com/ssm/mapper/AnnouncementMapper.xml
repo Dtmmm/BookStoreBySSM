@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.ssm.mapper.AnnouncementMapper">
+ 
+ 	<!-- 查询所有通知 -->
+ 	<select id="queryAllAnnouncementsDao" resultType="Announcement">
+ 		select * from Announcements
+ 	</select>
+ 
+ 	<!-- 根据AnnouncementsId查询通知 -->
+ 	<select id="queryAnnouncementDao" parameterType="String" resultType="Announcement">
+ 		select * from Announcements 
+ 		<where>
+ 			announcementId = #{announcementId}
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 添加通知 -->
+ 	<insert id="addAnnouncementDao" parameterType="Announcement">
+ 		insert into Announcements(announcementId,announcementTitle,announcementContent,announcementShow) 
+ 		values(#{announcementId},#{announcementTitle},#{announcementContent},#{announcementShow})
+ 	</insert>
+ 	
+ 	<!-- 删除通知 -->
+ 	<delete id="deleteAnnouncementDao" parameterType="String">
+ 		delete from Announcements 
+ 		<where>
+ 			announcementId = #{announcementId}
+ 		</where>
+ 	</delete>
+ 	
+ 	<!-- 修改通知 -->
+ 	<update id="updateAnnouncementDao" parameterType="Announcement">
+ 		update Announcements 
+ 		<set>
+ 			<if test="announcementTitle!=null and announcementTitle!=''">
+ 				announcementTitle = #{announcementTitle},
+ 			</if>
+ 			<if test="announcementContent!=null and announcementContent!=''">
+ 				announcementContent = #{announcementContent},
+ 			</if>
+ 			<if test="announcementShow!=null">
+ 				announcementShow = #{announcementShow},
+ 			</if>
+ 		</set>
+ 		<where>
+ 			announcementId = #{announcementId}
+ 		</where>
+ 	</update>
+ 
+ 
+ 
+ </mapper>

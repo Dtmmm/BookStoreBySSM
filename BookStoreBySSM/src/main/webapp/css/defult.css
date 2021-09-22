@@ -1,0 +1,15 @@
+@charset "UTF-8";
+* {
+	margin: 0px;
+    padding: 0px;
+    font-family: "YouYuan","SimSun";
+	font-weight: bolder;
+}
+
+body{
+    background-image:url(../imgs/background2.jpg);
+    background-repeat:no-repeat;
+    background-size:100% auto;
+    background-attachment:fixed;
+    background-position: 0px 80px;
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 添加扫描器(除了controller都扫描) -->
+	<context:component-scan base-package="com.ssm">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 加载配置文件db.properties -->
+	<context:property-placeholder location="classpath:db.properties" />
+	
+	<!-- 配置数据库信息 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${mysql.driver}"></property>
+		<property name="url" value="${mysql.url}"></property>
+		<property name="username" value="${mysql.username}"></property>
+		<property name="password" value="${mysql.password}"></property>
+		<property name="maxActive" value="${mysql.maxActive}"></property>
+		<property name="maxIdle" value="${mysql.maxIdle}"></property>
+	</bean>
+
+
+	<!-- 创建mybatis的核心类SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 加载Mapper映射文件studentmapper.xml，使得可以不需要配置文件mybatis-config.xml（因为在配置文件中只配置了Mapper） -->
+		<!-- 引入SpringMVC后，value=中加上classpath -->
+		<property name="mapperLocations" value="classpath:com/ssm/mapper/*.xml"></property>
+		<!-- 给映射文件中的resultType设置别名 -->
+		<property name="typeAliasesPackage" value="com.ssm.pojo"></property>
+	</bean>
+
+	 
+	 <!-- 第三种方式生成mapper对象：批量生成 -->
+	 <!-- 批量生成的mapper在Spring Ioc容器中的id值默认就是首字母小写的接口名 -->
+	 <!-- 注意property的name为sqlSessionFactoryBeanName，后面属性是value不是ref -->
+	 <bean id="mappers" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	 	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	 	<property name="basePackage" value="com.ssm.mapper"></property>
+	 </bean>
+	 
+	
+</beans>

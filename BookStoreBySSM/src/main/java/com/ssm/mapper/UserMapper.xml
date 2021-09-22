@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.ssm.mapper.UserMapper">
+ 
+ 	<!-- 查询所有用户 -->
+ 	<select id="queryAllUsersDao" resultType="User">
+ 		select * from users 
+ 		<where>
+ 			id!=000
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 根据id查询用户 -->
+ 	<select id="queryUserByIdDao" parameterType="String" resultType="User">
+ 		select * from users 
+ 		<where>
+			id = #{id}
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 添加用户 -->
+ 	<insert id="addUserDao" parameterType="User">
+ 		insert into users(id,userName,userPassword,address) 
+ 		values(#{id},#{userName},#{userPassword},#{address})
+ 	</insert>
+ 	
+ 	<!-- 修改用户 -->
+ 	<update id="updateUserDao" parameterType="User">
+ 		update users 
+ 		<set>
+ 			<if test="userName!=null and userName!=''">
+ 				userName=#{userName},
+ 			</if>
+ 			<if test="userPassword!=null and userPassword!=''">
+ 				userPassword=#{userPassword},
+ 			</if>
+ 			<if test="address!=null and address!=''">
+ 				address=#{address},
+ 			</if>
+ 		</set>
+ 		<where>
+ 			id = #{id}
+ 		</where>
+ 	</update>
+ 	
+ 	<!-- 删除用户 -->
+ 	<delete id="deleteUserDao" parameterType="String">
+ 		delete from users 
+ 		<where>
+ 			id = #{id}
+ 		</where>
+ 	</delete>
+ 	
+ </mapper>

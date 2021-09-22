@@ -1,0 +1,23 @@
+@charset "UTF-8";
+	* {
+		padding:0;
+    	margin:0;
+	}
+	
+	body {
+		font-family: "幼圆","宋体";
+		font-weight: bolder;
+	}
+	
+	ul {
+		list-style-type: none;
+	}
+	
+	a:link,a:visited{
+        text-decoration:none;
+        color:#000;
+    }
+    
+    a:hover {
+        text-decoration:underline;
+    }

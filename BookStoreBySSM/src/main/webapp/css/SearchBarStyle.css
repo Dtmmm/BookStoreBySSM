@@ -1,0 +1,44 @@
+@charset "UTF-8";
+	.SearchBar{
+		margin: 30px auto 30px auto;
+  		padding: 0;
+		float:none;
+		border:1px solid #b63b4d;
+		width:650px;
+		height:65px;
+		font-size:35px;
+		background-color:#b63b4d;
+	}
+	
+	.SearchBar #searchCondition{
+		width:550px;
+		height:50px;
+		margin-left:15px;
+		font-size: 18px;
+	}
+	
+	.SearchBar #submit{
+		margin:0px 0px 0px -65px;
+		width:100px;
+		height:50px;
+		background-color:#b63b4d;
+		border-width:0px;
+		background:url(../imgs/search.png) no-repeat;
+		background-position:35px 0px;
+		background-size:40px 40px;
+        cursor:pointer;
+        font-size:0px;
+	}
+	
+	
+	.SearchBar #submit:focus { 
+		outline: none; 
+	}
+	
+	.SearchBar #searchCondition:focus { 
+		outline: none; 
+	}
+	
+	input::-webkit-input-placeholder{
+  		font-size: 18px;
+	}
