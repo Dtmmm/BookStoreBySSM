@@ -74,7 +74,7 @@ public class BookController {
 	}
 	
 	
-	//根据书名、作者名、出版社名模糊查询图书
+	//根据书名、作者名、出版社名模糊查询图书(分页)
 	@RequestMapping("/searchBook")
 	public String searchBook(
 			@RequestParam(name="page",defaultValue="1") Integer page,

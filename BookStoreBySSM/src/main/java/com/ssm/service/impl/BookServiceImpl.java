@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService{
 		return result;
 	}
 	
-	//根据书名、作者名、出版社名模糊查询图书
+	//根据书名、作者名、出版社名模糊查询图书(分页)
 	@Override
 	public List<Book> searchBook(Book book) {
 		List<Book> searchdBooks = bookMapper.searchBookDao(book);

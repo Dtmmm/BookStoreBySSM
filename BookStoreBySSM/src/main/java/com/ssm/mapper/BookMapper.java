@@ -22,7 +22,7 @@ public interface BookMapper {
 	//删除图书
 	public boolean deleteBookDao(String id);
 	
-	//根据书名、作者名、出版社名模糊查询图书
+	//根据书名、作者名、出版社名模糊查询图书(分页)
 	public List<Book> searchBookDao(Book book);
 	
 	//更新图书库存信息
