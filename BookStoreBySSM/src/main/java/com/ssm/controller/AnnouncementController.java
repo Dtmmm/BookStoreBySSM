@@ -35,7 +35,7 @@ public class AnnouncementController {
 	public String queryAnnouncement(String announcementId, Model model) {
 		Announcement announcement = announcementService.queryAnnouncement(announcementId);
 		model.addAttribute("announcement", announcement);
-		return "AnnouncementManager";
+		return "Announcement";
 	}
 	
 	

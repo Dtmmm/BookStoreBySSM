@@ -39,9 +39,8 @@ public interface BookService {
 	//查询sole书
 	public List<Book> querySoleBook();
 	
-	//根据分类查询图书
-	public List<Book> queryClassificationBook(String bClassification, String sClassification);
-	
+	//根据分类查询图书(分页)
+	public List<Book> queryBookByClassification(Book book);
 	
 	
 	

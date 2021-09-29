@@ -28,4 +28,7 @@ public interface BookMapper {
 	//更新图书库存信息
 	public boolean updateBookInventoryDao(Book book);
 	
+	//根据分类查询图书(分页)
+	public List<Book> queryBookByClassificationDao(Book book);
+	
 }

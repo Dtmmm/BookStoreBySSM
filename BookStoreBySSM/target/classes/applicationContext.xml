@@ -32,6 +32,25 @@
 		<property name="mapperLocations" value="classpath:com/ssm/mapper/*.xml"></property>
 		<!-- 给映射文件中的resultType设置别名 -->
 		<property name="typeAliasesPackage" value="com.ssm.pojo"></property>
+		
+		<!-- 配置pageHelper -->
+		<property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <!--使用下面的方式配置参数，一行配置一个 -->
+                        <value>
+                            helperDialect=mysql
+                            offsetAsPageNum=true
+                            rowBoundsWithCount=true
+                            pageSizeZero=true
+                            reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+		</property>		
+		
 	</bean>
 
 	 

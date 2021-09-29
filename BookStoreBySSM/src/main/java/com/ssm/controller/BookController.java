@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ssm.pojo.Book;
 import com.ssm.service.BookService;
 
@@ -74,31 +76,79 @@ public class BookController {
 	
 	//根据书名、作者名、出版社名模糊查询图书
 	@RequestMapping("/searchBook")
-	public String searchBook(@RequestParam("searchCondition") String searchCondition, Model model) {
+	public String searchBook(
+			@RequestParam(name="page",defaultValue="1") Integer page,
+			@RequestParam("searchCondition") String searchCondition, Model model) {
+		//将查询条件放入request域
+		model.addAttribute("searchCondition", searchCondition);
+		
 		//封装模糊查询的条件
 		Book searchConditionBook = new Book();
 		searchConditionBook.setBookName(searchCondition);
 		searchConditionBook.setAuthor(searchCondition);
 		searchConditionBook.setPublisher(searchCondition);
 		
+		//引入pageHelper分页
+		PageHelper.startPage(page, 8);//每页条数=8
 		List<Book> searchedBooks = bookService.searchBook(searchConditionBook);
+		/**
+		 * pageNum:当前页
+		 * pageSize:每页的数量
+		 * size:当前页的数量
+		 * pages:总页数
+		 * total:总记录数
+		 */
+		PageInfo<Book> pageInfo = new PageInfo<Book>(searchedBooks);//把数据放在分页类中
 		model.addAttribute("searchedBooks", searchedBooks);
+		model.addAttribute("pageInfo", pageInfo);
 		return "Search";
 	}
 	
 	
-	//根据分类查询图书
+	//根据分类查询图书(分页)
 	@RequestMapping("/queryClassificationBook")
 	public String queryClassificationBook(
+			@RequestParam(name="page",defaultValue="1") Integer page,
 			@RequestParam("bClassification") String bClassification, 
 			@RequestParam("sClassification") String sClassification, Model model) {
-		
+	
 		//将查询条件放入request域
 		model.addAttribute("classification", sClassification.equals("null")?bClassification:sClassification);
+		if("null".equals("sClassification")||"".equals(sClassification)) {
+			model.addAttribute("bClassification",bClassification);
+		}else {
+			model.addAttribute("bClassification",bClassification);
+			model.addAttribute("sClassification",sClassification);
+		}
 		
-		//将查询的结果放入request域
-		List<Book> classificationBooks = bookService.queryClassificationBook(bClassification, sClassification);
+		//封装查询条件
+		Book conditionBook = new Book();
+		if(!"null".equals(sClassification)&&!"".equals(sClassification)) {
+			conditionBook.setsClassification(sClassification);
+		}
+		if(!"null".equals(bClassification)&&!"".equals(bClassification)) {
+			conditionBook.setbClassification(bClassification);
+		}
+		
+		
+		//引入pageHelper分页
+		PageHelper.startPage(page, 8);//每页条数=8
+		List<Book> classificationBooks = bookService.queryBookByClassification(conditionBook);
+		for (Book book : classificationBooks) {
+			System.out.println(book.getBookId());
+		}
+		
+		/**
+		 * pageNum:当前页
+		 * pageSize:每页的数量
+		 * size:当前页的数量
+		 * pages:总页数
+		 * total:总记录数
+		 */
+		PageInfo<Book> pageInfo = new PageInfo<Book>(classificationBooks);//把数据放在分页类中
 		model.addAttribute("classificationBooks", classificationBooks);
+		model.addAttribute("pageInfo", pageInfo);
+		
 		return "Classification";
 	}
 	

@@ -101,6 +101,20 @@
 		border:3px solid #b63b4d;
 		border-radius:10px;
 	}
+	
+	.pageInfo{
+		margin-left: 660px;
+	}
+	.pageInfo a{
+		margin-left: 10px;
+		text-decoration: none;
+	}
+	.pageInfo a:hover{
+		color:#b63b4d;
+	}
+	.pageInfo #page{
+		color:#b63b4d;
+	}
 </style>
 </head>
 
@@ -245,6 +259,15 @@
 	       		%>
 			</ul>
 		</div>	
+		
+		<!-- 分页按钮部分 -->
+		<div class="pageInfo">
+			<a href="../bookController/queryClassificationBook?bClassification=${bClassification}&sClassification=${sClassification}&page=1">首页</a>
+			<a href="queryClassificationBook?bClassification=${bClassification}&sClassification=${sClassification}&page=${pageInfo.prePage}">上一页</a>
+			<a id="page">${pageInfo.pageNum}/${pageInfo.pages}</a>
+			<a href="queryClassificationBook?bClassification=${bClassification}&sClassification=${sClassification}&page=${pageInfo.nextPage}">下一页</a>
+			<a href="queryClassificationBook?bClassification=${bClassification}&sClassification=${sClassification}&page=${pageInfo.pages}">尾页</a>
+		</div>
 	</div>	
 	
 	

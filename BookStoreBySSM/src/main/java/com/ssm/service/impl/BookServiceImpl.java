@@ -129,23 +129,10 @@ public class BookServiceImpl implements BookService{
 		return soleBooks;
 	}
 	
-	//根据分类查询图书
+	//根据分类查询图书(分页)
 	@Override
-	public List<Book> queryClassificationBook(String bClassification, String sClassification) {
-		List<Book> allBooks = bookMapper.queryAllBooksDao();
-		List<Book> classificationBooks = new ArrayList<>();
-		if(sClassification.equals("null")) {
-			for(Book book : allBooks) {
-				String DBbClassification = book.getbClassification();
-				if(DBbClassification.equals(bClassification)) classificationBooks.add(book);
-			}
-		}else {
-			for(Book book : allBooks) {
-				String DBbClassification = book.getbClassification();
-				String DBsClassification = book.getsClassification();
-				if(DBbClassification.equals(bClassification)&&DBsClassification.equals(sClassification)) classificationBooks.add(book);
-			}
-		}
+	public List<Book> queryBookByClassification(Book book) {
+		List<Book> classificationBooks = bookMapper.queryBookByClassificationDao(book);
 		return classificationBooks;
 	}
 	

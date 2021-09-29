@@ -113,5 +113,18 @@
  		</where>
  	</update>
  	
+ 	<!-- 根据分类查询图书(分页) -->
+ 	<select id="queryBookByClassificationDao" parameterType="Book" resultType="Book">
+ 		select * from books
+ 		<where>
+ 			<if test="bClassification!=null and bClassification!=''">
+ 				and bClassification = #{bClassification}
+ 			</if>
+ 			<if test="sClassification!=null and sClassification!=''">
+ 				and sClassification = #{sClassification}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
  
  </mapper>
