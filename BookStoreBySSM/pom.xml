@@ -109,6 +109,14 @@
 	    <version>5.2.1</version>
 	</dependency>
 	
+	
+	<!-- 引入jedis依赖 -->
+  	<dependency>
+  		<groupId>redis.clients</groupId>
+        <artifactId>jedis</artifactId>
+        <version>3.2.0</version>
+  	</dependency>
+	
   
   </dependencies>
   
