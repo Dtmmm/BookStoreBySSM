@@ -7,7 +7,7 @@ import com.ssm.pojo.Cart;
 public interface CartService {
 	
 	//创建用户购物车表
-	void createUserCart(String tableName);
+//	void createUserCart(String tableName);
 	
 	//查询用户购物车信息
 	List<Cart> queryUserCart(String tableName);
@@ -19,7 +19,7 @@ public interface CartService {
 	boolean deleteCart(String tableName, String bookId);
 	
 	//删除用户购物车表
-	void deleteUserCart(String tableName);
+//	void deleteUserCart(String tableName);
 	
 	//更新用户购物车中书的数量
 	public boolean updateUserCartNumber(String id, String bookId, int number ,int afterNumber);

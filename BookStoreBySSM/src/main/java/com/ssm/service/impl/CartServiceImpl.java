@@ -44,15 +44,6 @@ public class CartServiceImpl implements CartService{
 	
 	
 	/**
-	 * 创建用户购物车表
-	 */
-	@Override
-	public void createUserCart(String tableName) {
-		cartMapper.createUserCartDao(tableName);
-	}
-	
-	
-	/**
 	 * 查询用户购物车信息
 	 */
 	@Override
@@ -241,16 +232,5 @@ public class CartServiceImpl implements CartService{
 		if(dealResult && (del==1)) return true;
 		else return false;
 	}
-	
-	
-	/**
-	 * 删除用户购物车表
-	 */
-	@Override
-	public void deleteUserCart(String tableName) {
-		cartMapper.deleteUserCartDao(tableName);
-	}
-	
-	
 	
 }

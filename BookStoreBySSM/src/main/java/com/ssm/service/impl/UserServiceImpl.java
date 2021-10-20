@@ -10,6 +10,10 @@ import com.ssm.mapper.CartMapper;
 import com.ssm.mapper.UserMapper;
 import com.ssm.pojo.User;
 import com.ssm.service.UserService;
+import com.ssm.util.JedisPoolUtil;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 
 @Service("userService")
@@ -49,8 +53,14 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean deleteUser(String id) {
 		boolean result = userMapper.deleteUserDao(id);
-		if(result) cartMapper.deleteUserCartDao("User"+id);
-		return result;
+		
+		//通过连接池得到jedis对象
+		JedisPool jedisPoolInstance = JedisPoolUtil.getJedisPoolInstance();
+		Jedis jedis = jedisPoolInstance.getResource();
+		Long del = jedis.del("User"+id);
+
+		if(result && del==1) return true;
+		return false;
 	}
 	
 	//修改用户
@@ -81,8 +91,6 @@ public class UserServiceImpl implements UserService{
 		if(DBuser==null) {
 			//注册用户
 			boolean registerResult = userMapper.addUserDao(user);
-			//创建用户购物车表
-			cartMapper.createUserCartDao("User"+user.getId());
 			return registerResult;
 		}
 		return false;
