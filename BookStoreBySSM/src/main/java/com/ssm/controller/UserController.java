@@ -60,7 +60,7 @@ public class UserController {
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, Model model) {
 		boolean result = userService.deleteUser(id);
-		model.addAttribute("result", result);
+		if(!result)  System.out.println("删除失败，该用户已有相关订单信息");
 		return "redirect:queryAllUsers";
 	}
 	

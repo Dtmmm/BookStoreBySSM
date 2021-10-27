@@ -50,16 +50,17 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	//删除用户和用户购物车表
+	//遗留一个问题：删除用户购物车表后，没有将购物车中的书数量还回给库存
 	@Override
 	public boolean deleteUser(String id) {
 		boolean result = userMapper.deleteUserDao(id);
-		
-		//通过连接池得到jedis对象
-		JedisPool jedisPoolInstance = JedisPoolUtil.getJedisPoolInstance();
-		Jedis jedis = jedisPoolInstance.getResource();
-		Long del = jedis.del("User"+id);
-
-		if(result && del==1) return true;
+		if(result) {
+			//通过连接池得到jedis对象
+			JedisPool jedisPoolInstance = JedisPoolUtil.getJedisPoolInstance();
+			Jedis jedis = jedisPoolInstance.getResource();
+			Long del = jedis.del("User"+id);
+			if(del==1) {return true;}
+		}
 		return false;
 	}
 	

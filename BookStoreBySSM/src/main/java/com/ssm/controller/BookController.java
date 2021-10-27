@@ -8,11 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ssm.pojo.Book;
 import com.ssm.service.BookService;
+import com.ssm.util.JedisPoolUtil;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Controller("bookController")
 @RequestMapping("/bookController")
@@ -23,7 +28,29 @@ public class BookController {
 	private BookService bookService;
 	
 	
-	//查询所有图书
+	/**
+	 * 提前将数据库中的书的库存部署到Redis缓存中
+	 */
+	@RequestMapping("/preDeploy")
+	@ResponseBody
+	public void preDeploy(Model model) {
+		//通过连接池得到jedis对象
+		JedisPool jedisPoolInstance = JedisPoolUtil.getJedisPoolInstance();
+		Jedis jedis = jedisPoolInstance.getResource();
+		
+		List<Book> allBooks = bookService.queryAllBooks();
+		for(Book book : allBooks) {
+			//将库存信息写入Redis
+			//key:booksInventory  field:图书编号  value:库存
+			Long result = jedis.hset("booksInventory", book.getBookId(), String.valueOf(book.getInventory()));
+			if(result==0) System.out.println(book.getBookId()+"-"+result);
+		}
+	}
+	
+	
+	/**
+	 * 查询所有图书
+	 */
 	@RequestMapping("/queryAllBooks")
 	public String queryAllBooks(Model model) {
 		List<Book> allBooks = bookService.queryAllBooks();
@@ -41,7 +68,9 @@ public class BookController {
 //	}
 	
 	
-	//添加图书
+	/**
+	 * 添加图书
+	 */
 	@RequestMapping("/addBook")
 	//使用Spring的自动绑定入参，将前端的值自动绑定到book中
 	public String addBook(Book book) {
@@ -51,7 +80,9 @@ public class BookController {
 	}
 	
 	
-	//修改图书
+	/**
+	 * 修改图书
+	 */
 	@RequestMapping("/updateBook")
 	//使用Spring的自动绑定入参，将前端的值自动绑定到book中
 	public String updateBook(Book book, Model model) {
@@ -65,7 +96,9 @@ public class BookController {
 	}
 	
 	
-	//删除图书
+	/**
+	 * 删除图书
+	 */
 	@RequestMapping("/deleteBook")
 	public String deleteBook(@RequestParam("bookId") String bookId) {
 		boolean result = bookService.deleteBook(bookId);
@@ -74,7 +107,10 @@ public class BookController {
 	}
 	
 	
-	//根据书名、作者名、出版社名模糊查询图书(分页)
+	
+	/**
+	 * 根据书名、作者名、出版社名模糊查询图书(分页)
+	 */
 	@RequestMapping("/searchBook")
 	public String searchBook(
 			@RequestParam(name="page",defaultValue="1") Integer page,
@@ -105,7 +141,10 @@ public class BookController {
 	}
 	
 	
-	//根据分类查询图书(分页)
+	
+	/**
+	 * 根据分类查询图书(分页)
+	 */
 	@RequestMapping("/queryClassificationBook")
 	public String queryClassificationBook(
 			@RequestParam(name="page",defaultValue="1") Integer page,
